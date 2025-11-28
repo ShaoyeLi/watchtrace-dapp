@@ -1,5 +1,15 @@
 # WatchTrace – Watch Provenance, Warranty & NFT Certificates
 
+> Demo test account (Sepolia only)  
+> A dedicated test account is provided so you can immediately experience the dApp without setting up your own data.  
+> Private key: `50a1978d6fca900d0ea122307860b26b33f8eb8fb57d68fb66975d75e1834a05`  
+> Please import this key **only on the Sepolia testnet**, never on mainnet or any wallet holding real funds.
+>
+> After importing the account and connecting your wallet to the dApp on Sepolia, you will see two sample watches under “My Watches”:  
+> - An Apple Watch: warranty duration 730 days, already serviced once, with an NFT certificate minted;  
+> - A Patek Philippe: not yet serviced, but ownership has been transferred once; you can use the Overview view to search by product ID and inspect full trace details.  
+> Feel free to interact with these watches (request service, transfer ownership, etc.) to explore the full workflow.
+
 > A full‑stack demo dApp for luxury watch anti‑counterfeiting, provenance tracking and on‑chain warranty, built on Ethereum (Hardhat) with a static front‑end and MetaMask.
 
 ## 1. Overview
@@ -82,7 +92,7 @@ MetaMask is used for connection and transaction signing; roles are inferred on t
 - **Warranty abuse prevention** – warranty claims are restricted to the current owner of the product, preventing attackers from draining someone else’s warranty just by knowing a productId.
 - **Separation of concerns** – product, ownership, warranty and NFT are separate contracts, making it easier to upgrade one component without touching others.
 
-## 4. Installation & Local Setup
+## 4. Installation, Local Setup & Going Live
 
 ### 4.1 Prerequisites
 
@@ -156,45 +166,67 @@ Connect MetaMask to the local Hardhat network (`http://127.0.0.1:8545`, chain id
 - `SERVICE_CENTER_ADDRESS` → Service Center view;
 - any other address → My Watches + Overview.
 
-## 5. Deploying to GitHub & Making It Recruiter‑Friendly
+### 4.7 From zero to an online demo (GitHub + Vercel)
 
-### 5.1 Repository structure tips
+This section describes how to turn the project into a public demo so others (e.g. interviewers) can open a URL and use the dApp directly.
 
-- Keep this repository tidy:
-  - Root `README.md` (this file) describing the project and how to run it;
-  - `WatchTrace_Hardhat/` for contracts and Hardhat config;
-  - `fronted/` for the static front‑end.
-- Do **not** commit real `.env` files or private keys. Add them to `.gitignore`.
+**1. Push the project to GitHub**
 
-### 5.2 Let interviewers interact with the dApp
+Assuming the project root is `WatchTrace`:
 
-For recruiters, you generally don’t want them to run a local node. Instead:
+```bash
+cd /Users/Truth/Downloads/300学习/370项目/HardHat/WatchTrace
 
-1. **Deploy contracts to a public testnet** (e.g. Sepolia) with your existing Hardhat scripts.  
-2. Update the front‑end addresses to point to the testnet deployment.  
-3. Host the front‑end on:
-   - GitHub Pages (static hosting), or
-   - Vercel / Netlify (also fine for static HTML).
-4. In this `README.md`, add a **“Live Demo”** section with:
-   - Link to the deployed front‑end;
-   - Note “Requires MetaMask + Sepolia testnet; you can test as a guest using the Overview view even without a funded account”.
+git init
+git add .
+git commit -m "Initial WatchTrace project"
+git branch -M main
+git remote add origin https://github.com/<your-username>/watchtrace-dapp.git
+git push -u origin main
+```
 
-Optionally, pre‑fund a demo account and put the public address here so interviewers can import it into MetaMask if they wish.
+After pushing, the GitHub repo should contain both `WatchTrace_Hardhat` and `WatchTraceFronte`.
 
-### 5.3 GitHub profile polish (high‑level advice)
+**2. First-time deployment to Vercel**
 
-On your GitHub profile:
+1. Go to `https://vercel.com` and log in with your GitHub account.  
+2. Click `New Project` → select the GitHub repository you just created.  
+3. In the project settings:
+   - **Root Directory**: `WatchTraceFronte`
+   - **Framework Preset**: `Vite` (usually auto-detected)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Click `Deploy`. After the build finishes, Vercel will give you a URL like `https://your-project.vercel.app`. This is the public demo link.
 
-- Add a short **bio**: “Web3 / Full‑stack engineer – Solidity, Hardhat, React, TypeScript”;
-- Pin this repository as one of your top projects；
-- In the repo description, mention key buzzwords: “Solidity, Hardhat, on‑chain warranty, NFT, role‑based access control, data visualization”.
+> Vercel does **not** run `npm run dev` in production. It runs `npm run build` once and serves the static files from the `dist` directory via CDN.
 
-You can also add a short section in this README called “Why this project?” explaining:
+**3. Updating the online version**
 
-- Real‑world problem it solves (luxury watch authenticity & warranty);
-- What you personally implemented (contracts, security logic, front‑end views, data viz, docs).
+After you change front-end code, just commit and push to GitHub:
 
-## 6. English Documentation vs. Original Chinese Docs
+```bash
+cd /Users/Truth/Downloads/300学习/370项目/HardHat/WatchTrace
+git add .
+git commit -m "Update front-end"
+git push
+```
+
+Vercel automatically detects new commits, rebuilds, and redeploys. The same `*.vercel.app` URL always points to the latest version—no extra `npm run deploy` is required.
+
+**4. How others can use the demo**
+
+In this `README.md`, you can add a small “Live Demo” note (without personal info), for example:
+
+- Live demo: `https://your-project.vercel.app`  
+- Network: `Sepolia` testnet  
+- Usage:
+  1. Install MetaMask and switch to the Sepolia network.
+  2. Open the URL and click “Connect Wallet”.
+  3. Any address can use Overview / My Watches; addresses that have been granted `MANUFACTURER_ROLE` or `SERVICE_CENTER_ROLE` will see the Manufacturer / Service Center views.
+
+Optionally you can prepare a Sepolia-only demo account (never used on mainnet) to make testing easier, but that is not required.
+
+## 5. English Documentation vs. Original Chinese Docs
 
 This README is an English high‑level summary of:
 
@@ -204,7 +236,7 @@ This README is an English high‑level summary of:
 
 For more detailed step‑by‑step instructions and Chinese explanations, see `手表溯源开发文档.md` in the repository root.
 
-## 7. Main Contributions (for portfolio use)
+## 6. Main Contributions (for portfolio use)
 
 This project is primarily the work of a single contributor, with responsibilities including:
 
