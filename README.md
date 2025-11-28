@@ -10,6 +10,8 @@
 > - A Patek Philippe: not yet serviced, but ownership has been transferred once; you can use the Overview view to search by product ID and inspect full trace details.  
 > Feel free to interact with these watches (request service, transfer ownership, etc.) to explore the full workflow.
 
+**Live Demo (front‑end on Vercel)**: https://watchtrace-dapp.vercel.app/
+
 > A full‑stack demo dApp for luxury watch anti‑counterfeiting, provenance tracking and on‑chain warranty, built on Ethereum (Hardhat) with a static front‑end and MetaMask.
 
 ## 1. Overview
