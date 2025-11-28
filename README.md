@@ -61,7 +61,7 @@ Located in `WatchTrace_Hardhat/contracts`:
 
 ### 2.2 Front‑end views
 
-The front‑end is in `fronted/index-improved.html` and provides four conceptual views:
+The main front‑end lives in the `WatchTraceFronte` Vite + React app and exposes four conceptual views:
 
 - **Overview & Verification** (public)
   - Query product info, warranty status, ownership history and NFT owner;
@@ -168,67 +168,53 @@ Connect MetaMask to the local Hardhat network (`http://127.0.0.1:8545`, chain id
 - `SERVICE_CENTER_ADDRESS` → Service Center view;
 - any other address → My Watches + Overview.
 
-### 4.7 From zero to an online demo (GitHub + Vercel)
+## 5. Sepolia Testnet Deployment
 
-This section describes how to turn the project into a public demo so others (e.g. interviewers) can open a URL and use the dApp directly.
+This section summarizes how to deploy the contracts to Sepolia and connect the React front‑end to that deployment.
 
-**1. Push the project to GitHub**
+### 5.1 Deploy contracts to Sepolia
 
-Assuming the project root is `WatchTrace`:
-
-```bash
-cd /Users/Truth/Downloads/300学习/370项目/HardHat/WatchTrace
-
-git init
-git add .
-git commit -m "Initial WatchTrace project"
-git branch -M main
-git remote add origin https://github.com/<your-username>/watchtrace-dapp.git
-git push -u origin main
-```
-
-After pushing, the GitHub repo should contain both `WatchTrace_Hardhat` and `WatchTraceFronte`.
-
-**2. First-time deployment to Vercel**
-
-1. Go to `https://vercel.com` and log in with your GitHub account.  
-2. Click `New Project` → select the GitHub repository you just created.  
-3. In the project settings:
-   - **Root Directory**: `WatchTraceFronte`
-   - **Framework Preset**: `Vite` (usually auto-detected)
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. Click `Deploy`. After the build finishes, Vercel will give you a URL like `https://your-project.vercel.app`. This is the public demo link.
-
-> Vercel does **not** run `npm run dev` in production. It runs `npm run build` once and serves the static files from the `dist` directory via CDN.
-
-**3. Updating the online version**
-
-After you change front-end code, just commit and push to GitHub:
+Using the environment variables from section 4.3 (`INFURA_API_KEY`, `PRIVATE_KEY`, `MANUFACTURER_ADDRESS`, `SERVICE_CENTER_ADDRESS`):
 
 ```bash
-cd /Users/Truth/Downloads/300学习/370项目/HardHat/WatchTrace
-git add .
-git commit -m "Update front-end"
-git push
+cd WatchTrace_Hardhat
+
+npm run compile
+npm run deploy:sepolia
+npm run init:sepolia
 ```
 
-Vercel automatically detects new commits, rebuilds, and redeploys. The same `*.vercel.app` URL always points to the latest version—no extra `npm run deploy` is required.
+- `deploy:sepolia` deploys all contracts using `hardhat.config.ts` and writes their addresses to `deployed-addresses.json`.  
+- `init:sepolia` uses `PRIVATE_KEY` as admin to grant `MANUFACTURER_ROLE` to `MANUFACTURER_ADDRESS` and `SERVICE_CENTER_ROLE` to `SERVICE_CENTER_ADDRESS`.
 
-**4. How others can use the demo**
+### 5.2 Current Sepolia deployment addresses
 
-In this `README.md`, you can add a small “Live Demo” note (without personal info), for example:
+The latest recommended Sepolia deployment uses the following addresses:
 
-- Live demo: `https://your-project.vercel.app`  
-- Network: `Sepolia` testnet  
-- Usage:
-  1. Install MetaMask and switch to the Sepolia network.
-  2. Open the URL and click “Connect Wallet”.
-  3. Any address can use Overview / My Watches; addresses that have been granted `MANUFACTURER_ROLE` or `SERVICE_CENTER_ROLE` will see the Manufacturer / Service Center views.
+- `AccessControlRoles`: `0xe8c01a69e6dB24c7eb6dB6AB33a12E2BC1Ff9382`
+- `ProductRegistry`: `0xb546bBB3a72f3bcaB71845B6cFfc904953C07785`
+- `OwnershipManager`: `0xad45f26203fA91a89A217660322A1C725D196893`
+- `WarrantyManager`: `0x8B8656c512845f2025571D12319774b42E2ba24f`
+- `WatchNFT`: `0x8826196EC4355A026850a71AC7Fd3186B2051207`
 
-Optionally you can prepare a Sepolia-only demo account (never used on mainnet) to make testing easier, but that is not required.
+### 5.3 Front‑end configuration for Sepolia
 
-## 5. English Documentation vs. Original Chinese Docs
+Update the React front‑end to point to the Sepolia contracts by editing `WatchTraceFronte/contracts/config.ts`:
+
+```ts
+export const ADDRESSES = {
+  ACL: "0xe8c01a69e6dB24c7eb6dB6AB33a12E2BC1Ff9382",
+  PRODUCT_REGISTRY: "0xb546bBB3a72f3bcaB71845B6cFfc904953C07785",
+  OWNERSHIP_MANAGER: "0xad45f26203fA91a89A217660322A1C725D196893",
+  WARRANTY_MANAGER: "0x8B8656c512845f2025571D12319774b42E2ba24f",
+  WATCH_NFT: "0x8826196EC4355A026850a71AC7Fd3186B2051207",
+};
+```
+
+The live demo at `https://watchtrace-dapp.vercel.app/` is built against these addresses and the Sepolia network.  
+Connect MetaMask to Sepolia and use the provided demo private key (or your own test account) to interact with the dApp.
+
+## 6. English Documentation vs. Original Chinese Docs
 
 This README is an English high‑level summary of:
 
@@ -238,7 +224,7 @@ This README is an English high‑level summary of:
 
 For more detailed step‑by‑step instructions and Chinese explanations, see `手表溯源开发文档.md` in the repository root.
 
-## 6. Main Contributions (for portfolio use)
+## 7. Main Contributions (for portfolio use)
 
 This project is primarily the work of a single contributor, with responsibilities including:
 
