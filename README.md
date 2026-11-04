@@ -87,6 +87,24 @@ MetaMask is used for connection and transaction signing; roles are inferred on t
 - **Warranty abuse prevention** – warranty claims are restricted to the current owner of the product, preventing attackers from draining someone else’s warranty just by knowing a productId.
 - **Separation of concerns** – product, ownership, warranty and NFT are separate contracts, making it easier to upgrade one component without touching others.
 
+### Automated verification
+
+The Hardhat suite follows the main business state machine rather than a template contract. It covers:
+
+- manufacturer and service-center role enforcement;
+- product registration and initial ownership;
+- ownership transfer and the resulting change in warranty authority;
+- warranty request, approval, claim limits, and deactivation;
+- one-certificate-per-product NFT minting.
+
+```bash
+cd WatchTrace_Hardhat
+npm ci
+npm test
+```
+
+GitHub Actions runs the same test suite for contract changes and pull requests.
+
 ## 4. Installation, Local Setup & Going Live
 
 ### 4.1 Prerequisites
