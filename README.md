@@ -1,14 +1,7 @@
 # WatchTrace – Watch Provenance, Warranty & NFT Certificates
 
-> Demo test account (Sepolia only)  
-> A dedicated test account is provided so you can immediately experience the dApp without setting up your own data.  
-> Private key: `50a1978d6fca900d0ea122307860b26b33f8eb8fb57d68fb66975d75e1834a05`  
-> Please import this key **only on the Sepolia testnet**, never on mainnet or any wallet holding real funds.
->
-> After importing the account and connecting your wallet to the dApp on Sepolia, you will see two sample watches under “My Watches”:  
-> - An Apple Watch: warranty duration 730 days, already serviced once, with an NFT certificate minted;  
-> - A Patek Philippe: not yet serviced, but ownership has been transferred once; you can use the Overview view to search by product ID and inspect full trace details.  
-> Feel free to interact with these watches (request service, transfer ownership, etc.) to explore the full workflow.
+> Security notice  
+> No private key is distributed with this project. Use a fresh local Hardhat account or a dedicated Sepolia test account that never holds real assets. Keep RPC credentials and private keys in an uncommitted `.env` file.
 
 **Live Demo (front‑end on Vercel)**: https://watchtrace-dapp.vercel.app/
 
@@ -212,7 +205,7 @@ export const ADDRESSES = {
 ```
 
 The live demo at `https://watchtrace-dapp.vercel.app/` is built against these addresses and the Sepolia network.  
-Connect MetaMask to Sepolia and use the provided demo private key (or your own test account) to interact with the dApp.
+Connect MetaMask to Sepolia with your own dedicated test account. Never reuse a wallet that holds real assets.
 
 ## 6. English Documentation vs. Original Chinese Docs
 
