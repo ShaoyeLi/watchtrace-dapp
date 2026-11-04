@@ -1,0 +1,30 @@
+name: Smart contract tests
+
+on:
+  push:
+    paths:
+      - "WatchTrace_Hardhat/**"
+      - ".github/workflows/watchtrace-contracts.yml"
+  pull_request:
+    paths:
+      - "WatchTrace_Hardhat/**"
+      - ".github/workflows/watchtrace-contracts.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: WatchTrace_Hardhat
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: WatchTrace_Hardhat/package-lock.json
+      - run: npm ci
+      - run: npm test

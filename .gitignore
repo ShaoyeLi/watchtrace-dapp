@@ -1,0 +1,10 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+coverage/
+WatchTrace_Hardhat/artifacts/
+WatchTrace_Hardhat/cache/
+WatchTrace_Hardhat/typechain-types/
